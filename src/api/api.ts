@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios, { Method } from "axios";
 
 const BASE_URL = "https://dummyjson.com/";
 
 export class Api {
-  async performRequest<T>(url: string, method = "GET", body?: T) {
+  async performRequest<T>(url: string, method: Method = "GET", body?: T) {
     const response = await axios({
       method: method,
       url: BASE_URL + url,
