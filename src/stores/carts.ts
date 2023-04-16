@@ -24,8 +24,17 @@ class CartStore {
   async getAll() {
     this.isLoading = true;
     try {
+      // const response = await this.api.performRequest<IGetCartsResponse, any>(
+      //   "users?limit=100"
+      // );
+      // (
+      //   await this.api.performRequest<IGetCartsResponse, any>(
+      //     "products?limit=100"
+      //   )
+      // .carts;
+
       const response = (
-        await this.api.performRequest<IGetCartsResponse, any>("carts")
+        await this.api.performRequest<IGetCartsResponse, any>("carts?limit=20")
       ).carts;
       this.carts = response;
       this.isLoading = false;
