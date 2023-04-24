@@ -2,17 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
+import { ProSidebarProvider } from "react-pro-sidebar";
 import reportWebVitals from "./reportWebVitals";
 import { rootStore, StoreContext } from "./hooks/useStore";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   // <React.StrictMode>
-  <StoreContext.Provider value={rootStore}>
-    <App />
-  </StoreContext.Provider>
+  <BrowserRouter>
+    <StoreContext.Provider value={rootStore}>
+      <ProSidebarProvider>
+        <App />
+      </ProSidebarProvider>
+    </StoreContext.Provider>
+  </BrowserRouter>
   // </React.StrictMode>
 );
 
