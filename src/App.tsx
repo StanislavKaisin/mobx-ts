@@ -1,6 +1,5 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 import { observer } from "mobx-react-lite";
-import { useStore } from "./hooks/useStore";
 import { Route, Routes } from "react-router-dom";
 import { WebsiteRoutes } from "./constants/routes";
 import { Sidebar } from "./components/Sidebar/Sidebar";
@@ -8,14 +7,14 @@ import { Box, Container } from "@mui/material";
 import { TopBar } from "./components/TopBar/TopBar";
 
 function App() {
-  const { cartStore } = useStore();
-  useEffect(() => {
-    cartStore.getAll();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // const { cartStore } = useStore();
+  // useEffect(() => {
+  // cartStore.getAll();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   return (
     <>
-      <Container component="body" sx={{ padding: "64px 0px !important" }}>
+      <Container sx={{ padding: "64px 0px !important" }}>
         <TopBar />
         <Container
           component="main"

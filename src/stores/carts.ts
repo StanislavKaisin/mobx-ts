@@ -20,19 +20,12 @@ class CartStore {
       getAll: action,
     });
     this.api = api;
+    // this.init();
+    this.getAll();
   }
   async getAll() {
     this.isLoading = true;
     try {
-      // const response = await this.api.performRequest<IGetCartsResponse, any>(
-      //   "users?limit=100"
-      // );
-      // (
-      //   await this.api.performRequest<IGetCartsResponse, any>(
-      //     "products?limit=100"
-      //   )
-      // .carts;
-
       const response = (
         await this.api.performRequest<IGetCartsResponse, any>("carts?limit=20")
       ).carts;
