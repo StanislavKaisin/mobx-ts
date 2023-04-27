@@ -8,7 +8,9 @@ export const TopBar = () => {
   return (
     <AppBar component="nav">
       <InfoModal open={openModal} handleClose={() => setOpenModal(false)} />
-      <Toolbar sx={{ display: "flex", justifyContent: "end" }}>
+      <Toolbar
+        sx={{ display: "flex", justifyContent: "end", maxWidth: "1280px" }}
+      >
         <IconButton
           color="inherit"
           aria-label="open drawer"

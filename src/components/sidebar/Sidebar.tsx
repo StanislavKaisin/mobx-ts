@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Box } from "@mui/material";
 import { Sidebar as ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { WebsiteRoutes } from "../../constants/routes";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const Sidebar = () => {
-  const [selected, setSelected] = useState<string>(WebsiteRoutes.home);
+  let location = useLocation();
+  const [selected, setSelected] = useState<string>(location.pathname);
   return (
     <Box>
       <ProSidebar>

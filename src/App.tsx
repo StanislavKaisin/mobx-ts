@@ -5,6 +5,9 @@ import { WebsiteRoutes } from "./constants/routes";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Box, Container } from "@mui/material";
 import { TopBar } from "./components/TopBar/TopBar";
+import CartsPage from "./pages/CartsPage";
+import ProductsPage from "./pages/ProductsPage";
+import UsersPage from "./pages/UsersPage";
 
 function App() {
   // const { cartStore } = useStore();
@@ -21,20 +24,20 @@ function App() {
           sx={{ display: "flex", padding: " 0px !important" }}
         >
           <Sidebar />
-          <Box>
+          <Box sx={{ width: "100%" }}>
             <Suspense fallback={<h1>Loading...</h1>}>
               <Routes>
                 <Route
                   path={`${WebsiteRoutes.carts}/*`}
-                  element={<h1>Carts...</h1>}
+                  element={<CartsPage />}
                 />
                 <Route
                   path={`${WebsiteRoutes.users}/*`}
-                  element={<h1>users...</h1>}
+                  element={<UsersPage />}
                 />
                 <Route
                   path={`${WebsiteRoutes.products}/*`}
-                  element={<h1>products...</h1>}
+                  element={<ProductsPage />}
                 />
                 <Route
                   path={`${WebsiteRoutes.home}/*`}

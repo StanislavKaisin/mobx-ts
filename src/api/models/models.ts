@@ -56,10 +56,13 @@ export interface IProduct {
   id: number;
   title: string;
   price: number;
-  quantity: number;
+  stock: number;
   total: number;
   discountPercentage: number;
   discountedPrice: number;
+  description: string;
+  brand: string;
+  thumbnail: string;
 }
 
 export interface ICart {
