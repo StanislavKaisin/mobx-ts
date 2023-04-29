@@ -4,18 +4,23 @@ import { Api } from "../api/api";
 
 export type routeNameType = "carts" | "products" | "users";
 
-interface IGetStoreResponse<T, routeNameType> {
-  routeNameType: T[];
+type IGetStoreResponse<T> = {
+  [routeName in routeNameType]: T[];
+} & {
   total: number;
   skip: number;
   limit: number;
-}
+};
 
 export class Store<T> {
   error: null | AxiosError = null;
   isLoading = false;
   items: T[] = [];
-  constructor(private api: Api, public routeType: string) {
+  constructor(
+    private api: Api,
+    public routeType: routeNameType,
+    public numberOfRecords = 20
+  ) {
     makeObservable(this, {
       items: observable,
       getAll: action,
@@ -26,15 +31,9 @@ export class Store<T> {
   async getAll() {
     this.isLoading = true;
     try {
-      const response = await this.api.performRequest<
-        // IGetStoreResponse<T, RouteType>,
-        // IGetStoreResponse<T, typeof this.routeType>,
-        IGetStoreResponse<T, typeof this.routeType>,
-        any
-      >(`${this.routeType}?limit=20`);
-      // this.items = response[this.routeType];
-
-      //@ts-ignore
+      const response = await this.api.performRequest<IGetStoreResponse<T>, any>(
+        `${this.routeType}?limit=${this.numberOfRecords}`
+      );
       this.items = response[this.routeType];
       this.isLoading = false;
     } catch (error) {
@@ -45,5 +44,3 @@ export class Store<T> {
     }
   }
 }
-
-// export const cartStore = new Store(api);
