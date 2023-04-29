@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Route, Routes } from "react-router-dom";
 import { WebsiteRoutes } from "./constants/routes";
@@ -10,20 +10,20 @@ import ProductsPage from "./pages/ProductsPage";
 import UsersPage from "./pages/UsersPage";
 
 function App() {
-  // const { cartStore } = useStore();
-  // useEffect(() => {
-  // cartStore.getAll();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  const [openSideBar, setOpenSideBar] = useState(true);
+
   return (
     <>
       <Container sx={{ padding: "64px 0px !important" }}>
-        <TopBar />
+        <TopBar
+          isSideBarOpen={openSideBar}
+          openSideBar={(c) => setOpenSideBar(c)}
+        />
         <Container
           component="main"
           sx={{ display: "flex", padding: " 0px !important" }}
         >
-          <Sidebar />
+          <Sidebar isSideBarOpen={openSideBar} />
           <Box sx={{ width: "100%" }}>
             <Suspense fallback={<h1>Loading...</h1>}>
               <Routes>

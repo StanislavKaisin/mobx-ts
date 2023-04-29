@@ -1,7 +1,7 @@
 import api, { Api } from "../api/api";
 import { IUser } from "../api/models/models";
 import { Store, routeNameType } from "./store";
-import { action, computed, makeObservable, toJS } from "mobx";
+import { action, makeObservable } from "mobx";
 
 class UsersStore extends Store<IUser> {
   constructor(api: Api, routeType: routeNameType, numberOfRecords = 100) {
