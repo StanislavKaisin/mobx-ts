@@ -19,7 +19,9 @@ export const TopBar: FC<TopBarProps> = ({ openSideBar, isSideBarOpen }) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          maxWidth: "1280px",
+          minWidth: "1280px",
+          height: "64px",
+          margin: "0 auto",
         }}
       >
         <IconButton

@@ -23,7 +23,7 @@ export const Sidebar: FC<SidebarProps> = ({ isSideBarOpen }) => {
 
   return (
     <Box>
-      <ProSidebar collapsedWidth="0">
+      <ProSidebar collapsedWidth="0" style={{ height: "400px" }}>
         <Menu>
           {menuItems.map(({ link, text }) => {
             return (
@@ -49,6 +49,6 @@ export const Sidebar: FC<SidebarProps> = ({ isSideBarOpen }) => {
 const menuItems = [
   { link: `${WebsiteRoutes.home}`, text: "Home" },
   { link: `${WebsiteRoutes.carts}`, text: "Carts" },
-  { link: `${WebsiteRoutes.users}`, text: "Users" },
+  { link: `${WebsiteRoutes.users}`, text: "Customers" },
   { link: `${WebsiteRoutes.products}`, text: "Products" },
 ];

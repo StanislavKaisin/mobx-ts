@@ -4,7 +4,6 @@ import {
   GridColDef,
   GridRowsProp,
   GridToolbar,
-  useGridApiRef,
 } from "@mui/x-data-grid";
 import { useStore } from "../hooks/useStore";
 import { toJS } from "mobx";
@@ -14,7 +13,7 @@ import { renderAvatarCell } from "./AvatarCell";
 
 const ProductsPage = () => {
   const { productsStore } = useStore();
-  console.log("productsStore :>> ", toJS(productsStore.items));
+
   const rows: GridRowsProp = toJS(productsStore.items).map((item) => {
     return {
       id: item.id,
@@ -43,13 +42,6 @@ const ProductsPage = () => {
     { field: "col4", headerName: "Price, $", width: 75, align: "left" },
     { field: "col5", headerName: "Quantity", width: 75, align: "left" },
   ];
-  const apiRef = useGridApiRef();
-  if (apiRef.current) {
-    if (apiRef.current.exportState) {
-      const exported = apiRef.current.exportState();
-      console.log("exported :>> ", exported);
-    }
-  }
 
   return (
     <>
@@ -60,7 +52,6 @@ const ProductsPage = () => {
       ) : (
         <Box sx={{ height: 400, width: "100%" }}>
           <DataGrid
-            apiRef={apiRef}
             rows={rows}
             columns={columns}
             slots={{

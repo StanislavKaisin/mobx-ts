@@ -1,45 +1,88 @@
-// import { AxiosError, isAxiosError } from "axios";
-// import { action, makeObservable, observable } from "mobx";
-import api from "../api/api";
-import { ICart } from "../api/models/models";
-import { Store } from "./store";
+import { computed, makeObservable, toJS } from "mobx";
+import api, { Api } from "../api/api";
+import { ICart, IProduct } from "../api/models/models";
+import { Store, routeNameType } from "./store";
 
-// interface IGetCartsResponse {
-//   carts: ICart[];
-//   total: number;
-//   skip: number;
-//   limit: number;
-// }
+interface ICartProduct extends IProduct {
+  quantity: number;
+}
 
-// class CartStore {
-//   error: null | AxiosError = null;
-//   isLoading = false;
-//   carts: ICart[] = [];
-//   constructor(private api: Api) {
-//     makeObservable(this, {
-//       carts: observable,
-//       getAll: action,
-//     });
-//     this.api = api;
-//     this.getAll();
-//   }
-//   async getAll() {
-//     this.isLoading = true;
-//     try {
-//       const response = (
-//         await this.api.performRequest<IGetCartsResponse, any>("carts?limit=20")
-//       ).carts;
-//       this.carts = response;
-//       this.isLoading = false;
-//     } catch (error) {
-//       if (isAxiosError(error)) {
-//         this.error = error;
-//         this.isLoading = false;
-//       }
-//     }
-//   }
-// }
+class CartsStore extends Store<ICart> {
+  constructor(api: Api, routeType: routeNameType, numberOfRecords = 20) {
+    super(api, routeType, numberOfRecords);
+    makeObservable(this, {
+      getAverageCartCost: computed,
+      getTotalProductsQuantity: computed,
+    });
+  }
+  get getTotalProductsQuantity() {
+    return this.items.reduce((acc, item) => acc + item.totalQuantity, 0);
+  }
+  get getAverageCartCost() {
+    return (
+      this.items.reduce((acc, item) => acc + item.discountedTotal, 0) /
+      this.numberOfRecords
+    ).toFixed(2);
+  }
 
-// export const cartStore = new CartStore(api);
+  getSortedByValue() {
+    if (this.items.length) {
+      const sortedItems = toJS(this.items).sort((a, b) => a.total - b.total);
+      return sortedItems;
+    }
+    return this.items;
+  }
 
-export const cartStore = new Store<ICart>(api, "carts");
+  getHighestLowestCarts() {
+    if (this.items.length) {
+      const sortedItems = this.getSortedByValue();
+      const highestCart = sortedItems[sortedItems.length - 1].total;
+      const lowestCart = sortedItems[0].total;
+      return [highestCart.toFixed(2), lowestCart.toFixed(2)];
+    }
+    return [0, 0];
+  }
+
+  getMostValuableCustomer() {
+    if (this.items.length) {
+      const sortedItems = this.getSortedByValue();
+      const mostValuableCustomerId = sortedItems[sortedItems.length - 1].userId;
+      return mostValuableCustomerId;
+    }
+    return undefined;
+  }
+
+  getMostWantedGood() {
+    if (this.items.length) {
+      const productsFromCarts = toJS(this.items).reduce(
+        (acc: IProduct[], item) => {
+          acc = [...acc, ...item.products];
+          return acc;
+        },
+        []
+      );
+      const productsDictionary: Record<string, number> = {};
+      productsFromCarts.forEach((product) => {
+        if (productsDictionary[product.title]) {
+          productsDictionary[product.title] =
+            productsDictionary[product.title] +
+            (product as ICartProduct).quantity;
+        } else {
+          productsDictionary[product.title] = (
+            product as ICartProduct
+          ).quantity;
+        }
+      });
+      const maxOrders = Math.max(...Object.values(productsDictionary));
+      const result: [string, number][] = [];
+      for (const product in productsDictionary) {
+        if (productsDictionary[product] === maxOrders) {
+          result.push([product, maxOrders]);
+        }
+      }
+      return result;
+    }
+    return undefined;
+  }
+}
+export const cartsStore = new CartsStore(api, "carts");

@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Route, Routes } from "react-router-dom";
 import { WebsiteRoutes } from "./constants/routes";
@@ -8,9 +8,10 @@ import { TopBar } from "./components/TopBar/TopBar";
 import CartsPage from "./pages/CartsPage";
 import ProductsPage from "./pages/ProductsPage";
 import UsersPage from "./pages/UsersPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
-  const [openSideBar, setOpenSideBar] = useState(true);
+  const [openSideBar, setOpenSideBar] = useState(false);
 
   return (
     <>
@@ -41,7 +42,7 @@ function App() {
                 />
                 <Route
                   path={`${WebsiteRoutes.home}/*`}
-                  element={<h1>dashboard...</h1>}
+                  element={<DashboardPage />}
                 />
               </Routes>
             </Suspense>

@@ -6,7 +6,7 @@ interface AvatarCellProps {
   img: string;
   text: string;
 }
-const AvatarCell: FC<AvatarCellProps> = ({ img, text }) => {
+export const AvatarCell: FC<AvatarCellProps> = ({ img, text }) => {
   return (
     <Box display="flex" alignItems="center">
       <Avatar variant="rounded" src={img} />
