@@ -3,7 +3,6 @@ import { Typography } from "@mui/material";
 import { useStore } from "../../hooks/useStore";
 import { observer } from "mobx-react-lite";
 import { DashboardBucket } from "../DashboardBucket/DashboardBucket";
-import { toJS } from "mobx";
 
 const ProductsBucket = () => {
   const { productsStore } = useStore();

@@ -1,14 +1,15 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Route, Routes } from "react-router-dom";
 import { WebsiteRoutes } from "./constants/routes";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Box, Container } from "@mui/material";
 import { TopBar } from "./components/TopBar/TopBar";
-import CartsPage from "./pages/CartsPage";
-import ProductsPage from "./pages/ProductsPage";
-import UsersPage from "./pages/UsersPage";
-import DashboardPage from "./pages/DashboardPage";
+
+const LazyCartsPage = lazy(() => import("./pages/CartsPage"));
+const LazyProductsPage = lazy(() => import("./pages/ProductsPage"));
+const LazyUsersPage = lazy(() => import("./pages/UsersPage"));
+const LazyDashboardPage = lazy(() => import("./pages/DashboardPage"));
 
 function App() {
   const [openSideBar, setOpenSideBar] = useState(false);
@@ -30,19 +31,35 @@ function App() {
               <Routes>
                 <Route
                   path={`${WebsiteRoutes.carts}/*`}
-                  element={<CartsPage />}
+                  element={
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <LazyCartsPage />
+                    </Suspense>
+                  }
                 />
                 <Route
                   path={`${WebsiteRoutes.users}/*`}
-                  element={<UsersPage />}
+                  element={
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <LazyUsersPage />
+                    </Suspense>
+                  }
                 />
                 <Route
                   path={`${WebsiteRoutes.products}/*`}
-                  element={<ProductsPage />}
+                  element={
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <LazyProductsPage />
+                    </Suspense>
+                  }
                 />
                 <Route
                   path={`${WebsiteRoutes.home}/*`}
-                  element={<DashboardPage />}
+                  element={
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <LazyDashboardPage />
+                    </Suspense>
+                  }
                 />
               </Routes>
             </Suspense>
