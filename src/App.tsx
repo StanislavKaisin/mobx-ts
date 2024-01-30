@@ -5,11 +5,15 @@ import { WebsiteRoutes } from "./constants/routes";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Box, Container } from "@mui/material";
 import { TopBar } from "./components/TopBar/TopBar";
+import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+// import { LoginPage } from "./pages/LoginPage";
 
 const LazyCartsPage = lazy(() => import("./pages/CartsPage"));
 const LazyProductsPage = lazy(() => import("./pages/ProductsPage"));
 const LazyUsersPage = lazy(() => import("./pages/UsersPage"));
 const LazyDashboardPage = lazy(() => import("./pages/DashboardPage"));
+const LazyAllProductsPage = lazy(() => import("./pages/AllProductsPage"));
+const LazyLoginPage = lazy(() => import("./pages/LoginPage"));
 
 function App() {
   const [openSideBar, setOpenSideBar] = useState(false);
@@ -30,34 +34,58 @@ function App() {
             <Suspense fallback={<h1>Loading...</h1>}>
               <Routes>
                 <Route
-                  path={`${WebsiteRoutes.carts}/*`}
+                  path={`${WebsiteRoutes.home}`}
                   element={
                     <Suspense fallback={<div>Loading...</div>}>
-                      <LazyCartsPage />
+                      <LazyAllProductsPage />
                     </Suspense>
                   }
                 />
                 <Route
-                  path={`${WebsiteRoutes.users}/*`}
+                  path={`${WebsiteRoutes.carts}`}
                   element={
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <LazyUsersPage />
-                    </Suspense>
+                    <ProtectedRoute>
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <LazyCartsPage />
+                      </Suspense>
+                    </ProtectedRoute>
                   }
                 />
                 <Route
-                  path={`${WebsiteRoutes.products}/*`}
+                  path={`${WebsiteRoutes.users}`}
                   element={
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <LazyProductsPage />
-                    </Suspense>
+                    <ProtectedRoute>
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <LazyUsersPage />
+                      </Suspense>
+                    </ProtectedRoute>
                   }
                 />
                 <Route
-                  path={`${WebsiteRoutes.home}/*`}
+                  path={`${WebsiteRoutes.products}`}
+                  element={
+                    <ProtectedRoute>
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <LazyProductsPage />
+                      </Suspense>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={`${WebsiteRoutes.dashboard}`}
+                  element={
+                    <ProtectedRoute>
+                      <Suspense fallback={<div>Loading...</div>}>
+                        <LazyDashboardPage />
+                      </Suspense>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={`${WebsiteRoutes.login}`}
                   element={
                     <Suspense fallback={<div>Loading...</div>}>
-                      <LazyDashboardPage />
+                      <LazyLoginPage />
                     </Suspense>
                   }
                 />
